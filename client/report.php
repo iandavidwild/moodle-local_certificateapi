@@ -159,7 +159,7 @@ include_once dirname(__FILE__).'/locallib.php';
         <table data-role="table" id="summary-table" data-filter="true" data-input="#filterTable-input" class="display ui-responsive ui-bar-d table-stripe">
             <thead>
                 <tr>
-                    <th data-priority="persist">Leaner</th>
+                    <th data-priority="persist">Learner</th>
                     <th data-priority="persist">Course</th>
                     <th data-priority="persist">Completed</th>
                 </tr>
