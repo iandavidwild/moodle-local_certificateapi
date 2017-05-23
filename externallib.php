@@ -114,13 +114,13 @@ class local_certificateapi_external extends external_api {
         $sql = 'SELECT
                     user.email AS email,
 					course.fullname AS coursename,
-                    certissues.timeissued AS issuedate
+                    certissues.timecreated AS issuedate
                 FROM {user} AS user
                 INNER JOIN {customcert_issues} AS certissues ON user.id = certissues.userid
 				INNER JOIN {customcert} AS customcert ON certissues.customcertid = customcert.id 
 				INNER JOIN {course} AS course ON customcert.course = course.id
 		        WHERE user.email = :learneremail
-		        AND certissues.timeissued>=:starttime AND certissues.timeissued<=:endtime';
+		        AND certissues.timecreated>=:starttime AND certissues.timecreated<=:endtime';
 
         $params = array('learneremail'=>$learneremail, 'starttime'=>$starttime, 'endtime'=>$endtime);
 
@@ -135,7 +135,7 @@ class local_certificateapi_external extends external_api {
             // add field names so we know what they are the other end
             $fieldnames = new stdClass();
             $fieldnames->coursename = 'coursename';
-            $fieldnames->learneremail = 'learneremail';
+            $fieldnames->learneremail = 'learnerid';
             $fieldnames->completiondate = 'completiondate';
                 
             $completions[] = (array)$fieldnames;
@@ -144,8 +144,8 @@ class local_certificateapi_external extends external_api {
             	$completion = new stdClass();
                               
                 $completion->coursename = $data->coursename;
-                $completion->learneremail = $data->learneremail;
-                $completion->completiondate = $data->completiondate;
+                $completion->learneremail = $data->email;
+                $completion->completiondate = $data->issuedate;
                 $completions[] = (array)$completion;
             }
         }
@@ -256,13 +256,13 @@ class local_certificateapi_external extends external_api {
         $sql = 'SELECT
                     user.username AS username,
 					course.fullname AS coursename,
-                    certissues.timeissued AS issuedate
+                    certissues.timecreated AS issuedate
                 FROM {user} AS user
                 INNER JOIN {customcert_issues} AS certissues ON user.id = certissues.userid
 				INNER JOIN {customcert} AS customcert ON certissues.customcertid = customcert.id 
 				INNER JOIN {course} AS course ON customcert.course = course.id
 		        WHERE user.username = :username
-		        AND certissues.timeissued>=:starttime AND certissues.timeissued<=:endtime';
+		        AND certissues.timecreated>=:starttime AND certissues.timecreated<=:endtime';
             
         $params = array('username'=>$username, 'starttime'=>$starttime, 'endtime'=>$endtime);
                 
@@ -277,7 +277,7 @@ class local_certificateapi_external extends external_api {
             // add field names so we know what they are the other end
             $fieldnames = new stdClass();
             $fieldnames->coursename = 'coursename';
-            $fieldnames->username = 'username';
+            $fieldnames->username = 'learnerid';
             $fieldnames->completiondate = 'completiondate';
                 
             $completions[] = (array)$fieldnames;
@@ -286,7 +286,7 @@ class local_certificateapi_external extends external_api {
                 $completion = new stdClass();
                 $completion->coursename = $data->coursename;
                 $completion->username = $data->username;
-                $completion->completiondate = $data->completiondate;
+                $completion->completiondate = $data->issuedate;
 		        if(DEBUG_TRACE){error_log('coursename: ' . $completion->coursename . ' username: ' . $completion->username . ' completiondate: ' . $completion->completiondate);}
                 $completions[] = (array)$completion;
             }
