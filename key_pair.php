@@ -35,7 +35,7 @@ $clientid = urldecode(optional_param('clientid', '', PARAM_TEXT));
 $hostname = urldecode(optional_param('hostname', '', PARAM_TEXT));
 $fullname = urldecode(optional_param('fullname', '', PARAM_TEXT));
 
-$context = get_context_instance(CONTEXT_SYSTEM);
+$context = context_system::instance();
 require_capability('moodle/site:config', $context, $USER->id, true, 'nopermissions');
 
 $PAGE->set_context($context);
