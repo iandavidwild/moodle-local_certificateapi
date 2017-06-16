@@ -39,23 +39,27 @@ class certificateapi_simple_host_form extends moodleform {
         $mform = $this->_form;
 
         $mform->addElement('hidden', 'id', -1);
+        $mform->setType('id', PARAM_INT);
         
         $mform->addElement('text', 'fullname', get_string('fullname', 'local_certificateapi'));
         $mform->addHelpButton('fullname', 'fullname', 'local_certificateapi');
         $mform->addRule('fullname', null, 'required', null, 'client');
+        $mform->setType('fullname', PARAM_TEXT);
         
         $mform->addElement('text', 'hostname', get_string('hostname', 'local_certificateapi'));
         $mform->addHelpButton('hostname', 'hostname', 'local_certificateapi');
         $mform->addRule('hostname', null, 'required', null, 'client');
+        $mform->setType('hostname', PARAM_TEXT);
 
         $mform->addElement('text', 'clientid', get_string('clientid', 'local_certificateapi'));
         $mform->addHelpButton('clientid', 'clientid', 'local_certificateapi');
         $mform->addRule('clientid', null, 'required', null, 'client');
+        $mform->setType('clientid', PARAM_TEXT);
 
         $this->add_action_buttons(false, get_string('addhost', 'local_certificateapi'));
     }
 
-    function validation($data) {
+    function validation($data, $files = array()) {
         global $DB;
 
         $clientid = $data['clientid'];
@@ -67,7 +71,7 @@ class certificateapi_simple_host_form extends moodleform {
     }
 }
 
-$context = get_system_context();
+$context = context_system::instance();
 
 require_login();
 if (!is_siteadmin()) {
