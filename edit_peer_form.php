@@ -35,7 +35,11 @@ class certificateapi_review_host_form extends moodleform {
 
         //$mform->addElement('hidden', 'oldpublickey');
         $mform->addElement('hidden', 'last_connect_time');
+        $mform->setType('last_connect_time', PARAM_INT);
+        
         $mform->addElement('hidden', 'id');
+        $mform->setType('id', PARAM_INT);
+        
         $mform->addElement('text', 'fullname', get_string('fullname', 'local_certificateapi'));
         $mform->addHelpButton('fullname', 'fullname', 'local_certificateapi');
         $mform->addRule('fullname', null, 'required', null, 'fullname');
@@ -70,7 +74,7 @@ class certificateapi_review_host_form extends moodleform {
         // finished with form controls, now the static informational stuff
         if ($peer) {
             $lastconnect = '';
-            if ($mnet_peer->last_connect_time == 0) {
+            if ($peer->last_connect_time == 0) {
                 $lastconnect = get_string('never', 'local_certificateapi');
             } else {
                 $lastconnect = date('H:i:s d/m/Y', $peer->last_connect_time);
@@ -124,11 +128,11 @@ class certificateapi_review_host_form extends moodleform {
         $this->set_data($data);
     }
 
-    function validation($data) {
+    function validation($data, $files = array()) {
         $errors = array();
-        if ($data['oldpublickey'] == $data['public_key']) {
-            return;
-        }
+        //if ($data['oldpublickey'] == $data['public_key']) {
+        //    return;
+        //}
         $peer = new certificateapi_peer();
         $peer->wwwroot = $data['hostname']; // just hard-set this rather than bootstrap the object
         if (!$credentials = $peer->check_credentials($data['public_key'])) {
