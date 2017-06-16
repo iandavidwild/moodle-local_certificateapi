@@ -30,7 +30,7 @@ $id     = required_param('id', PARAM_INT);              // course id
 $delete = optional_param('delete', '', PARAM_ALPHANUM); // delete confirmation hash
 
 $PAGE->set_url('/local/certificateapi/delete_peer.php', array('id' => $id));
-$PAGE->set_context(get_context_instance(CONTEXT_SYSTEM));
+$PAGE->set_context(context_system::instance());
 require_login();
 
 $strdeletehost = get_string("deletehost", "local_certificateapi");
@@ -66,10 +66,7 @@ if (!confirm_sesskey()) {
     print_error('confirmsesskeybad', 'error');
 }
 
-// OK checks done, delete the course now.
-
-add_to_log(SITEID, "certificateapihost", "delete", "edit_peer.php?id=$host->id", "$host->fullname (ID $host->id)");
-
+// OK checks done, delete the host now.
 $strdeletinghost = get_string("deletinghost", "local_certificateapi", $host->fullname);
 
 $PAGE->navbar->add($strdeletinghost);
